@@ -21,20 +21,27 @@ module Rank
   end
 
   #add_rank athletes, :attribute => :created_at, :ties => true
-  def self.add_rank objects, options
-    options = { :attributes => :id, :ties => true, :sort => false }.merge(options)
+  def self.add objects, *attributes
+    options = { :ties => true, :sort => true }.merge(extract_options! attributes)
 
     current_rank = 1
     last_object = nil
-    objects.sort!{ |a, b| Rank.compare(a, b, *options[:attributes]) } if options[:sort]
+    objects.sort!{ |a, b| Rank.compare(a, b, *attributes) } if options[:sort]
     objects.each_with_index do |object, i|
-      current_rank = i+1 if (options[:ties] and !!last_object and Rank.compare(object, last_object, *options[:attributes]) == 1)
-      current_rank = i+1 if (!options[:ties] and !!last_object)
+      if options[:ties]
+        current_rank = i+1 if !!last_object && Rank.compare(object, last_object, *attributes) == 1
+      else
+        current_rank = i+1 if !!last_object
+      end
       object[:rank] = current_rank
       last_object = object
     end
 
     return objects
+  end
+  
+  def self.extract_options! args
+    args.last.is_a?(::Hash) ? args.pop : {}
   end
   
   def self.perform_conversion value, conversion

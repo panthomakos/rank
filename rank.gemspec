@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email       = ["pan.thomakos@gmail.com"]
   s.homepage    = "http://github.com/panthomakos/rank"
   s.summary     = "rank-#{Rank::VERSION}"
-  s.description = %q{Easily add ranks to arrays of objects.}
+  s.description = %q{Easily add rankings to arrays of objects.}
 
   s.rubyforge_project = "rank"
 

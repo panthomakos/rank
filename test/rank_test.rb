@@ -22,7 +22,7 @@ class RankTest < Test::Unit::TestCase
   def test_setting_rank_without_ties
     first = {:id => 1}
     second = {:id => 2}
-    Rank.add_rank [first, second], :attributes => :id, :ties => false
+    Rank.add [first, second], :id, :ties => false
     assert_equal 1, first[:rank]
     assert_equal 2, second[:rank]
   end
@@ -31,7 +31,7 @@ class RankTest < Test::Unit::TestCase
     first = {:one => 1}
     second = {:one => 1}
     third = {:one => 2}
-    Rank.add_rank [first, second, third], :attributes => :one, :ties => true
+    Rank.add [first, second, third], :one, :ties => true
     assert_equal 1, first[:rank]
     assert_equal 1, second[:rank]
     assert_equal 3, third[:rank]
@@ -42,12 +42,12 @@ class RankTest < Test::Unit::TestCase
     second = {:one => nil}
     third = {:one => 2}
     
-    Rank.add_rank [first, second, third], :attributes => [[:one, :asc]], :ties => true, :sort => true
+    Rank.add [first, second, third], [:one, :asc], :ties => true, :sort => true
     assert_equal 1, first[:rank]
     assert_equal 2, third[:rank]
     assert_equal 3, second[:rank]
     
-    Rank.add_rank [first, second, third], :attributes => [[:one, :desc]], :ties => true, :sort => true
+    Rank.add [first, second, third], [:one, :desc], :ties => true, :sort => true
     assert_equal 1, third[:rank]
     assert_equal 2, first[:rank]
     assert_equal 3, second[:rank]

@@ -1,5 +1,5 @@
 module Rank
-  #assumes ascending :asc, but can also use descending :desc
+  # Compare two objects. By default the order is ascending (:asc) but descending can be specified with (:desc).
   def self.compare a, b, *attributes
     attributes.each do |attribute, order, conversion|
       a_attribute = self.perform_conversion a[attribute], conversion
@@ -20,7 +20,7 @@ module Rank
     return 0
   end
 
-  #add_rank athletes, :attribute => :created_at, :ties => true
+  # Add rank to a list of objects. It will automatically sort the objects and observe ties.
   def self.add objects, *attributes
     options = { :ties => true, :sort => true }.merge(extract_options! attributes)
 
@@ -40,11 +40,11 @@ module Rank
     return objects
   end
   
-  def self.extract_options! args
+  def self.extract_options! args #:nodoc:
     args.last.is_a?(::Hash) ? args.pop : {}
   end
   
-  def self.perform_conversion value, conversion
+  def self.perform_conversion value, conversion #:nodoc:
     begin
       if conversion.nil? || conversion == :none
         value
